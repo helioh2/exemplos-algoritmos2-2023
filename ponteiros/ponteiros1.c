@@ -19,7 +19,7 @@ int main() {
   int x = 5;
   int y = 4;
   int z;
-  char* nome;
+  char* nome = NULL;  //Ponteiro nulo -> não aponta pra lugar nenhum
 
   z = subtrai_e_dobra(x, y);
   

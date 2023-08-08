@@ -36,7 +36,7 @@ int main() {
     printf("Conteudo de pessoa1 apos alteração por referencia: %s %s %d\n", pessoa1.nome, pessoa1.cpf, pessoa1.anoNascimento);
     
   
-    Pessoa pessoa2 = mudaAnoPorValor(pessoa1); //passagem por valor e retorno por valor --> copia a struct para novo frame na pilha e copia de volta no retorno para nova variável car2
+    Pessoa pessoa2 = mudaAnoPorValor(pessoa1); //passagem por valor e retorno por valor --> copia a struct para novo frame na pilha e copia de volta no retorno para nova variável pessoa2
     printf("Conteudo de pessoa2, nova variavel retornada pela função que recebe e retorna por valor: %s %s %d\n", pessoa2.nome, pessoa2.cpf, pessoa2.anoNascimento); 
     printf("Conteudo de pessoa1, que foi passada por valor e portanto não alterada na função chamadora: %s %s %d\n", pessoa1.nome, pessoa1.cpf, pessoa1.anoNascimento);
 
