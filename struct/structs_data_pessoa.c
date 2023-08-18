@@ -1,10 +1,10 @@
-
+#include <stdio.h>
 #include <string.h>
 
 // Registro
 typedef struct
 {
-  int dia;
+  int dia;  // um campo
   int mes;
   int ano;
 } Data;
@@ -23,11 +23,24 @@ Data somaMeses(Data data, int qtdeMeses)
   Data novaData;
 
   novaData.dia = data.dia;
-  novaData.mes = data.mes + qtdeMeses;
-  novaData.ano = data.ano;
+  novaData.mes = (data.mes + qtdeMeses) % 12;
+  novaData.ano = data.ano + (data.mes + qtdeMeses) / 12;
 
   return novaData;
 }
+
+/**
+ * Soma uma quantidade de meses a uma data
+*/
+void somaMesesPorReferencia(Data* data, int qtdeMeses) {
+
+  (*data).mes = ((*data).mes + qtdeMeses) % 12;
+  (*data).ano = (*data).ano + ((*data).mes + qtdeMeses) / 12;
+
+}
+
+
+
 
 int main()
 {
@@ -66,9 +79,17 @@ int main()
   printf("%d\n", sizeof(p2.dataNascimento));
   printf("%d\n", sizeof(p2.cpf));
 
+  printf("Minha data: %d/%d/%d\n", minhaData.dia, minhaData.mes, minhaData.ano);
+
   Data novaData = somaMeses(minhaData, 10);
 
-  printf("%d\n", novaData.mes);
+  printf("Nova data: %d/%d/%d\n", novaData.dia, novaData.mes, novaData.ano);
+
+
+  Data* ptrData = malloc(sizeof(Data));
+  
+  (*ptrData).mes = 10;
+
 
   return 0;
 }
