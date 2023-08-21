@@ -6,7 +6,7 @@
 
 
 typedef struct {
-  char nome[7];
+  char nome[10];
   char cpf[12];
   int anoNascimento;
 } Pessoa;
@@ -45,7 +45,7 @@ int main() {
   
     Pessoa* pessoa_ptr1 = (Pessoa*) malloc(sizeof(Pessoa)); //criação de ponteiro/referência e alocação de memória na heap, o ponteiro (endereço) está na pilha, a struct na heap
 
-    strcpy(pessoa_ptr1->nome, "Beltrano");  //irá vazar para o cpf!!
+    strcpy(pessoa_ptr1->nome, "Beltrano"); 
     strcpy(pessoa_ptr1->cpf, "98765432198");
     pessoa_ptr1->anoNascimento = 2006;  //ou (*pessoa_ptr1).anoNascimento  [desreferenciação]
     

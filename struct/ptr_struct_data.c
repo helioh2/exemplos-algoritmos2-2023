@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 /**
  * Definição da struct e do tipo que representa uma data, com dia, mês e ano.
@@ -11,21 +12,10 @@ typedef struct
   int ano;  // outro campo
 } Data;
 
-/**
- * Definição da struct e do tipo que representa uma pessoa,
- * com nome, data de nascimento e CPF.
-*/
-typedef struct
-{
-  char nome[20];
-  Data dataNascimento;
-  char cpf[11];
-} Pessoa;
-
-
 // FUNCAO PURA QUE SOMA UMA QTDE DE MESES À DATA PASSADA POR PARAMETRO
 Data somaMesesPorValor(Data data, int qtdeMeses)
 {
+
   Data novaData;
 
   novaData.dia = data.dia;
@@ -63,53 +53,34 @@ void somaMesesPorReferencia(Data* data, int qtdeMeses) {
 
 int main()
 {
-
-  int x = 20;
-
-  Data minhaData;
-
-  minhaData.dia = 10;
-  minhaData.mes = 8;
-  minhaData.ano = 2023;
-
-  Data aniversarioArthur;
-
-  aniversarioArthur.dia = 12;
-  aniversarioArthur.mes = 6;
-  aniversarioArthur.ano = 2004;
-
-  Pessoa p1;
-
-  strcpy(p1.nome, "Fulano de Souza\0");
-  p1.dataNascimento = aniversarioArthur;
-  strcpy(p1.cpf, "101010202\0");
-  // strcpy((*p1).nome
-
-  Pessoa p2;
-
-  strcpy(p2.nome, "Beltrano da Silva\0");
-  p2.dataNascimento = minhaData;
-  strcpy(p2.cpf, "2626262626\0");
-
-  printf("%d\n", sizeof(p2)); // verirficar porque tem 1 byte a mais de tamanho
-  printf("%d\n", sizeof(p2.nome));
-  printf("%d\n", sizeof(p2.dataNascimento));
-  printf("%d\n", sizeof(p2.cpf));
-
-  printf("Minha data: %d/%d/%d\n", minhaData.dia, minhaData.mes, minhaData.ano);
-
-  Data novaData = somaMesesPorValor(minhaData, 10);
-
-  printf("Nova data: %d/%d/%d\n", novaData.dia, novaData.mes, novaData.ano);
-
-
+  
+  Data dataNaPilha;
+  
   Data* ptrData = malloc(sizeof(Data));
   
   // (*ptrData).mes = 10;
-  ptrData->dia = 15;
+  
+  ptrData->dia = 20;
   ptrData->mes = 10;
   ptrData->ano = 2023;
 
+  //TESTES:
+  
+  somaMesesPorReferencia(ptrData, 1);
+
+  assert(ptrData->mes == 11);
+  assert(ptrData->ano == 2023);
+  printf("Nova data: %d/%d/%d\n", ptrData->dia, ptrData->mes, ptrData->ano);
+
+  somaMesesPorReferencia(ptrData, 3);
+  assert(ptrData->mes == 2);
+  assert(ptrData->ano == 2024);
+  printf("Nova data: %d/%d/%d\n", ptrData->dia, ptrData->mes, ptrData->ano);
+
+  somaMesesPorReferencia(ptrData, 24);
+  assert(ptrData->mes == 2);
+  assert(ptrData->ano == 2026);
+  printf("Nova data: %d/%d/%d\n", ptrData->dia, ptrData->mes, ptrData->ano);
 
   return 0;
 }

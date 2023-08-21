@@ -21,7 +21,8 @@ int main() {
 
     int x[] = {10,20,30,40}; 
     
-    printf("Conteudo do x: %d\n", x);
+    printf("Conteudo do x: %d\n", x);  //note que o valor de x é um endereço --> O endereço para o início do array
+    // Isso porque variáveis do tipo array em C são, na realidade, ponteiros.
 
     alteraPrimeiroPorReferencia(x);  // Arrays em C são sempre passados por referência. Ou seja, a variável é um ponteiro. Aqui está passando o endereço da pilha (no frame main) onde se encontra o vetor
 
@@ -31,7 +32,7 @@ int main() {
     
 
   
-    // CRIANDO NA HEAP E USANDO PONTEIRO:
+    // CRIANDO NA HEAP:
   
     int* z = malloc(4*sizeof(int));  // z é um ponteiro para um array de int alocado dinamicamente na heap, e não o próprio int
     z[0] = 100; z[1] = 200; z[2] = 300; z[3] = 400;  
