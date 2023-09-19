@@ -23,8 +23,9 @@ typedef struct {
  * para o próximo nó.
 */
 struct reg {
-    Aluno dados;
+    Aluno conteudo;
     struct reg* prox;
+    struct reg* ante;
 };
 
 typedef struct reg Node; 
@@ -45,171 +46,193 @@ typedef struct lista Lista;
  * Cria e retorna um ponteiro para uma lista. 
 */
 Lista* cria_lista() {
-    Lista* li = malloc(sizeof(Lista));
-    if(li != NULL)
-        li->cabeca = NULL;
-        li->cauda = NULL;
-        li->tamanho = 0;
-    return li;
+    Lista* lista = malloc(sizeof(Lista));
+    if(lista != NULL)
+        lista->cabeca = NULL;
+        lista->cauda = NULL;
+        lista->tamanho = 0;
+    return lista;
 }
 
 
-bool lista_vazia(Lista* li) {
-    return li == NULL || li->cabeca == NULL;
+bool lista_vazia(Lista* lista) {
+    return lista->cabeca == NULL;
 }
 
+
+Node* criar_node(Aluno aluno) {
+    Node* novo = malloc(sizeof(Node));
+    if(novo == NULL) {
+        exit(EXIT_FAILURE);  // não foi possível alocar espaço (memória cheia)
+    }
+    novo->conteudo = aluno;
+    novo->prox, novo->ante = NULL;
+    return novo;
+    
+}
 
 
 /**
- * Recebe um ponteiro para uma lista e insere o novo aluno 'al' no início da lista.
+ * Recebe um ponteiro para uma lista e insere o novo aluno 'aluno' no início da lista.
  * Para isso, é necessário criar um novo nó (Node), fazer o novo nó apontar
- * para o primeiro nó (li->cabeca) e por fim fazer a lista (li) apontar para o novo
+ * para o primeiro nó (lista->cabeca) e por fim fazer a lista (lista) apontar para o novo
  * nó como o primeiro nó da lista.
 */
-bool insere_no_inicio(Lista* li, Aluno al){
-    if (li == NULL) {
+bool insere_no_inicio(Lista* lista, Aluno aluno){
+    if (lista == NULL) {
+        printf("ERRO: Lista inválida\n");
         return false;
     }
-    Node* novo = malloc(sizeof(Node));
-    if(novo == NULL)
-        return false;  // não foi possível alocar espaço (memória cheia)
-    novo->dados = al;
-    novo->prox = li->cabeca;  //faz o novo nó apontar para o atual nó cabeça da lista
-    li->cabeca = novo;   // faz a lista apontar para o novo nó como o primeiro nó da lista
-    if (novo->prox == NULL) {
-        li->cauda = novo;  //faz a cauda também apontar para novo se só tiver um nó
+    Node* novo = criar_node(aluno);
+    novo->prox = lista->cabeca;  //faz o novo nó apontar para o atual nó cabeça da lista
+    if (lista->cabeca != NULL){
+        lista->cabeca->ante = novo;
     }
-    li->tamanho++;
+    lista->cabeca = novo;   // faz a cabeça da lista apontar para o novo nó como o primeiro nó da lista
+    if (novo->prox == NULL) {
+        lista->cauda = novo;  //faz a cauda também apontar para novo se só tiver um nó
+    }
+    lista->tamanho++;
     return true;
 }
 
 /**
  * Recebe um ponteiro para uma lista (o ponteiro para o ponteiro do primeiro nó),
- * e insere o novo aluno 'al' no final da lista
- * Para isso, é necessário criar um novo nó (Node), iterar até o final
- * da lista e inserir o novo nós após o último nó.
+ * e insere o novo aluno 'aluno' no final da lista
 */
-bool insere_no_final(Lista* li, Aluno al){
-    if (li == NULL)
+bool insere_no_final(Lista* lista, Aluno aluno){
+    if (lista == NULL) {
+        printf("ERRO: Lista inválida\n");
         return false;
-
-    if (li->cabeca == NULL) { // lista vazia: insere no início
-        return insere_no_inicio(li, al);
     }
 
-    Node* novo = malloc(sizeof(Node));
-    if (novo == NULL)
-        return false;
-    
-    novo->dados = al;
-    novo->prox = NULL;  // será o último nó, logo apontará para null
+    if (lista_vazia(lista)) { // lista vazia: insere no início
+        return insere_no_inicio(lista, aluno);
+    }
 
-    Node* antiga_cauda = li->cauda;
+    Node* novo = criar_node(aluno);
+    novo->ante = lista->cauda;  // faz o anterior do node apontar para a atual cauda
+    novo->ante->prox = novo;  //faz o prox da atual cauda atual apontar para novo
 
-    antiga_cauda->prox = novo;  //faz o prox da cauda atual apontar para novo
-    li->cauda = novo;  //faz a cauda atual ser o novo
+    lista->cauda = novo;  //faz a o novo se tornar a cauda atual
     
-    li->tamanho++;
+    lista->tamanho++;
 
     return true;
 }
 
 
-bool insere_no_meio(Lista* li, Aluno al, int posicao){
+bool insere_no_meio(Lista* lista, Aluno aluno, int posicao){
+
+    if (lista == NULL) {
+        printf("ERRO: Lista inválida\n");
+        return false;
+    }
 
     if (posicao == 0) {
-        return insere_no_inicio(li, al);
+        return insere_no_inicio(lista, aluno);
     }
 
-    if (posicao == li->tamanho) {
-        return insere_no_final(li, al);
+    if (posicao == lista->tamanho) {
+        return insere_no_final(lista, aluno);
     }
 
-    if(lista_vazia(li) || posicao > li->tamanho)
+    if(lista_vazia(lista) || posicao > (lista->tamanho)) {
+        printf("ERRO: Tentando inserir em uma posição fora da lista\n");
         return false;
+    }
 
+    Node* novo = criar_node(aluno);
 
-    Node* novo = malloc(sizeof(Node));
-    novo->dados = al;
-
-    Node* atual = li->cabeca; 
+    Node* atual = lista->cabeca; 
     
-    for (int i = 1; i < posicao; i++) {
-        atual = atual->prox;
+    for (int i = 0; i < posicao - 1; i++) {
         if (atual == NULL) { // acabou a lista
+            printf("ERRO: Tentando inserir em uma posição fora da lista\n");
             return false;
         }
-    }
-
-    Node* aux = atual->prox;
-    atual->prox = novo;
-    novo->prox = aux;
-
-    li->tamanho++;
-
-    return true;
-}
-
-
-bool remove_do_inicio(Lista* li){
-    if (lista_vazia(li))
-        return false;
-
-    Node* node = li->cabeca;
-    li->cabeca = node->prox; // faz a lista apontar para o segundo elemento
-    free(node);
-
-    li->tamanho--;
-    
-    return true;
-}
-
-/**
- * Este caso seria O(1) [mais eficiente] se a lista fosse duplamente encadeada.
- * Como não é o caso, é O(n)
-*/
-bool remove_do_final(Lista* li){
-    if (lista_vazia(li))
-        return false;
-
-    Node *anterior, *atual = li->cabeca; //cria dois ponteiros para nós, ambos apontando para o inicio da lista
-    
-    // itera na lista guardando o ponteiro do nó anterior
-    while(atual->prox != NULL){
-        anterior = atual;
         atual = atual->prox;
     }
 
-    // ao final do while, teremos ant apontando para o penúltimo nó, e node apontando para o último
-
-    if(atual == li->cabeca) { //se o nó aponta para o primeiro
-        li->cabeca = atual->prox;
-    } else {
-        anterior->prox = atual->prox; // faz o penúltimo apontar para o prox do último (NULL)
+    novo->prox = atual->prox;  // faz o novo nó apontar para o próximo do atual
+    if (atual->prox != NULL) {
+        atual->prox->ante = novo;  // faz o próximo do atual apontar (ante) para o novo
     }
-    li->cauda = anterior;
-
-    free(atual);
-
-    li->tamanho--;
+    novo->ante = atual;   // faz o novo nó apontar (ante) para o atual
+    atual->prox = novo;  // faz o nó atual apontar (prox) para o novo
+    
+    lista->tamanho++;
 
     return true;
 }
 
 
-int tamanho_lista(Lista* li){
-    return li->tamanho;
+bool remove_do_inicio(Lista* lista){
+
+    if (lista == NULL) {
+        printf("ERRO: Lista inválida");
+        return false;
+    }
+
+    if (lista_vazia(lista)) {
+        printf("ERRO: Não é possível remover de lista vazia");
+        return false;
+    }
+
+    Node* node = lista->cabeca;
+    lista->cabeca = node->prox; // faz a lista apontar para o segundo elemento
+    free(node);
+
+    if (lista->cabeca == NULL) {
+        lista->cauda = NULL;  // se lista ficou vazia, faz a cauda também apontar para NULL    
+    }
+
+    lista->tamanho--;
+    
+    return true;
 }
 
 
-void imprime_lista(Lista* li){
-    if(li == NULL)
+
+bool remove_do_final(Lista* lista){
+
+    if (lista == NULL) {
+        printf("ERRO: Lista inválida");
+        return false;
+    }
+
+    if (lista_vazia(lista)) {
+        printf("ERRO: Não é possível remover de lista vazia");
+        return false;
+    }
+
+    Node* node = lista->cauda;
+    lista->cauda = node->ante; // faz a cauda apontar para o penultimo elemento
+    free(node);
+
+    if (lista->cauda == NULL) {
+        lista->cabeca = NULL;  // se lista ficou vazia, faz a cabeca também apontar para NULL    
+    }
+
+    lista->tamanho--;
+
+    return true;
+}
+
+
+int tamanho_lista(Lista* lista){
+    return lista->tamanho;
+}
+
+
+void imprime_lista(Lista* lista){
+    if(lista == NULL)
         return;
-    Node* node = li->cabeca;
+    Node* node = lista->cabeca;
     while(node != NULL){
-        printf("Matricula: %d\n",node->dados.matricula);
-        printf("Nome: %s\n",node->dados.nome);
-        printf("Nota: %f %f %f\n",node->dados.nota);
+        printf("Matricula: %d\n",node->conteudo.matricula);
+        printf("Nome: %s\n",node->conteudo.nome);
+        printf("Nota: %f %f %f\n",node->conteudo.nota);
         printf("-------------------------------\n");
 
         node = node->prox;
@@ -217,65 +240,29 @@ void imprime_lista(Lista* li){
 }
 
 
-
-// int main() {
-//     //TESTES
-
-//     Aluno al;
-//     Aluno a[4] = {{2,"Andre",9.5,7.8,8.5},
-//                          {4,"Ricardo",7.5,8.7,6.8},
-//                          {1,"Bianca",9.7,6.7,8.4},
-//                          {3,"Ana",5.7,6.1,7.4}};
-//     Lista* li = cria_lista();
-//     printf("Tamanho: %d\n\n\n\n",tamanho_lista(li));
-
-//     int i;
-//     for(i=0; i < 4; i++)
-//         insere_no_inicio(li,a[i]);
-
-//     imprime_lista(li);
-//     printf("\n\n\n\n Tamanho: %d\n",tamanho_lista(li));
-
-//     for(i=0; i < 4; i++){
-//         remove_do_inicio(li);
-//         imprime_lista(li);
-//         printf("\n Tamanho: %d\n\n\n",tamanho_lista(li));
-//     }
-
-//     for(i=0; i < 4; i++)
-//         insere_no_final(li,a[i]);
-//     imprime_lista(li);
-
-//     libera_lista(li);
-
-//     return 0;
-// }
-
-
-
 int main() {
     //TESTES DE INSERCAO NO MEIO
 
-    Aluno al;
+    Aluno aluno;
     Aluno a[4] = {{2,"Andre",9.5},
                          {4,"Ricardo",7.5},
                          {1,"Bianca",9.7},
                          {3,"Ana",5.7}};
-    Lista* li = cria_lista();
-    printf("Tamanho: %d\n\n\n\n",tamanho_lista(li));
+    Lista* lista = cria_lista();
+    printf("Tamanho: %d\n\n\n\n",tamanho_lista(lista));
 
     int i;
     for (i=0; i < 4; i++)
-        insere_no_inicio(li,a[i]);
+        insere_no_inicio(lista,a[i]);
 
-    imprime_lista(li);
-    printf("\n\nTamanho: %d\n",tamanho_lista(li));
+    imprime_lista(lista);
+    printf("\n\nTamanho: %d\n",tamanho_lista(lista));
 
     Aluno novo = {5, "Fulano", 8.5};
 
-    insere_no_meio(li, novo, 2);
+    insere_no_meio(lista, novo, 2);
     
-    imprime_lista(li);
+    imprime_lista(lista);
 
     return 0;
 }
