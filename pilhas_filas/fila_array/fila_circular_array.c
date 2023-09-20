@@ -34,26 +34,46 @@ bool fila_vazia(Fila* fila) {
 }
 
 bool fila_cheia(Fila* fila) {
-    return fila->u == fila->capacidade;
+    return (fila->u + 1) % fila->capacidade == fila->p;
+}
+
+void redimensionar_fila(Fila* fila) {
+    int capacidade_antiga = fila->capacidade;
+    fila->capacidade *= 2;
+    int* novo_vetor = malloc(fila->capacidade * sizeof(int));
+    
+    int j = 0;
+    int i = fila->p;
+    while (i != fila->u) {
+        novo_vetor[j] = fila->vetor[i];
+        i = (i + 1) % capacidade_antiga;
+        j++;
+    }
+
+    fila->p = 0;
+    fila->u = capacidade_antiga - 1;
+    fila->vetor = novo_vetor;
 }
 
 bool adicionar(Fila* fila, int valor) {
+
     if (fila_cheia(fila)) {
-        printf("ERRO: Fila cheia");
-        return false;
+        redimensionar_fila(fila);
     }
+
     fila->vetor[fila->u] = valor;
-    fila->u ++;
+    fila->u = (fila->u + 1) % fila->capacidade;
     return true;
 }
 
-int remover(Fila* fila) {
+bool remover(Fila* fila) {
     if (fila_vazia(fila)) {
         printf("ERRO: Fila vazia");
-        return -1;
+        return false;
     }
-    fila->p ++;
-    return fila->vetor[fila->p - 1];
+    int removido = fila->vetor[fila->p];
+    fila->p = (fila->p + 1) % fila->capacidade;
+    return removido;
 }
 
 
@@ -111,10 +131,13 @@ int main() {
 
     adicionar(fila1, 10);
     adicionar(fila1, 20);
-    assert(adicionar(fila1, 30) == false);
-    // adicionar(fila1, 40);
-    // adicionar(fila1, 50);
-    // assert(adicionar(fila1, 60) == false);
+    adicionar(fila1, 30);
+    adicionar(fila1, 40);
+    adicionar(fila1, 50);
+    adicionar(fila1, 60);
+
+    assert(inicio_fila(fila1) == 10);
+    assert(fim_fila(fila1) == 60);
 
 
     return EXIT_SUCCESS;

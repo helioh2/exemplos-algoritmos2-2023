@@ -1,17 +1,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "arrays.c"
+#include "lista_duplamente_encadeada.c"
 
 
 /**
  * O primeiro elemento da fila está na posição p e o último na posição u-1.
 */
 struct fila {
-    int* vetor;
-    int p;  // indice do primeiro elemento
-    int u;  // indice do último elemento + 1
-    int capacidade;
+    Lista* lista;
 };
 typedef struct fila Fila;
 
@@ -19,43 +16,14 @@ typedef struct fila Fila;
 Fila* cria_fila_vazia(int capacidade_inicial) {
     Fila* nova_fila = malloc(sizeof(Fila));
     if (nova_fila == NULL) exit(EXIT_FAILURE);
-    nova_fila->vetor = malloc(sizeof(int)*capacidade_inicial);
-    if (nova_fila->vetor == NULL) exit(EXIT_FAILURE);
-
-    nova_fila->p = 0;
-    nova_fila->u = 0;
-    nova_fila->capacidade = capacidade_inicial;
+    nova_fila->lista = cria_lista();
 
     return nova_fila;
 }
 
 bool fila_vazia(Fila* fila) {
-    return fila->p == fila->u;
+    return fila->lista->tamanho == 0;
 }
-
-bool fila_cheia(Fila* fila) {
-    return fila->u == fila->capacidade;
-}
-
-bool adicionar(Fila* fila, int valor) {
-    if (fila_cheia(fila)) {
-        printf("ERRO: Fila cheia");
-        return false;
-    }
-    fila->vetor[fila->u] = valor;
-    fila->u ++;
-    return true;
-}
-
-int remover(Fila* fila) {
-    if (fila_vazia(fila)) {
-        printf("ERRO: Fila vazia");
-        return -1;
-    }
-    fila->p ++;
-    return fila->vetor[fila->p - 1];
-}
-
 
 int inicio_fila(Fila* fila) {
     if (fila_vazia(fila)) {
@@ -63,7 +31,7 @@ int inicio_fila(Fila* fila) {
         return -1;
     }
 
-    return fila->vetor[fila->p];
+    return fila->lista->cabeca->conteudo;
 
 }
 
@@ -73,8 +41,21 @@ int fim_fila(Fila* fila) {
         return -1;
     }
 
-    return fila->vetor[fila->u - 1];  // final da fila em u-1
+    return fila->lista->cauda->conteudo;
 }
+
+
+bool adicionar(Fila* fila, int valor) {
+    insere_no_final(fila->lista, valor);
+    return true;
+}
+
+int remover(Fila* fila) {
+    int removido = inicio_fila(fila);
+    remove_do_inicio(fila->lista);
+    return removido;
+}
+
 
 
 int main() {
@@ -111,11 +92,13 @@ int main() {
 
     adicionar(fila1, 10);
     adicionar(fila1, 20);
-    assert(adicionar(fila1, 30) == false);
-    // adicionar(fila1, 40);
-    // adicionar(fila1, 50);
-    // assert(adicionar(fila1, 60) == false);
+    adicionar(fila1, 30);
+    adicionar(fila1, 40);
+    adicionar(fila1, 50);
+    adicionar(fila1, 60);
 
+    assert(inicio_fila(fila1) == 10);
+    assert(fim_fila(fila1) == 60);
 
     return EXIT_SUCCESS;
 }
