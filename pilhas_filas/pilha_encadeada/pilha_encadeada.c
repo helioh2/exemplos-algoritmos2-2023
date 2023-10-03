@@ -9,7 +9,7 @@ struct pilha {
 };
 typedef struct pilha Pilha;
 
-Pilha* cria_pilha_vazia(int capacidade_inicial) {
+Pilha* cria_pilha_vazia() {
     Pilha* nova_pilha = malloc(sizeof(Pilha));
     if (nova_pilha == NULL) exit(EXIT_FAILURE);
     nova_pilha->lista = criar_lista_vazia();
@@ -20,7 +20,8 @@ Pilha* cria_pilha_vazia(int capacidade_inicial) {
 
 
 bool pilha_vazia(Pilha* pilha) {
-    return pilha->n == 0;
+    // return pilha->n == 0;
+    return pilha->lista->cabeca == NULL;
 }
 
 int topo(Pilha* pilha) {
@@ -68,6 +69,9 @@ int main() {
     assert(x == 30);
 
     printf("%d\n", topo(pilha1));
+
+
+
     assert(topo(pilha1) == 20);
 
     empilha(pilha1, 40);
@@ -81,4 +85,6 @@ int main() {
     assert(topo(pilha1) == 90);
 
     return EXIT_SUCCESS;
+
+    int x = (((((4*3)
 }

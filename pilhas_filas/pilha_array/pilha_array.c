@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "arrays.c"
 
-struct pilha {
+struct pilha {   // Stack
     int* vetor;
     int n;
     int capacidade;
@@ -23,16 +23,17 @@ Pilha* cria_pilha_vazia(int capacidade_inicial) {
 }
 
 
-bool pilha_vazia(Pilha* pilha) {
+bool pilha_vazia(Pilha* pilha) {  //empty
     return pilha->n == 0;
 }
 
-int topo(Pilha* pilha) {
+int topo(Pilha* pilha) {  //top
     return pilha->vetor[pilha->n - 1];
 }
 
-void empilha(Pilha* pilha, int valor) {
-    if (pilha->n == pilha->capacidade) {
+void empilha(Pilha* pilha, int valor) {  // push
+
+    if (pilha->n == pilha->capacidade) { // pilha cheia
         pilha->vetor = redimensionar_vetor(pilha->vetor, pilha->capacidade*2);
         pilha->capacidade *= 2;
     }
@@ -41,7 +42,7 @@ void empilha(Pilha* pilha, int valor) {
     pilha->n ++;
 }
 
-int desempilha(Pilha* pilha) {
+int desempilha(Pilha* pilha) {  //pop
     if (pilha_vazia(pilha)) {
         printf("ERRO: Pilha vazia");
     }

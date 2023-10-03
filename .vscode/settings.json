@@ -5,6 +5,7 @@
         "string": "c",
         "string_view": "c",
         "cstdlib": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "stdlib.h": "c"
     }
 }
