@@ -7,7 +7,7 @@
 */
 void escreve_arquivo(char* nome_arquivo) {
 
-    FILE *arquivo;
+    FILE* arquivo;
     arquivo = fopen(nome_arquivo, "w"); //(caminho, modo) -- abrindo no modo de escrita
 
     int n;
@@ -15,16 +15,18 @@ void escreve_arquivo(char* nome_arquivo) {
     scanf("%d", &n);
 
     // declara e aloca variável 'linha' para guardar uma string de no máximo 20 caracteres
-    char* linha = malloc(sizeof(char)*20);  
+    char linha[20];
+
+    char temp;
+    scanf("%c",&temp); // Limpando buffer do scanf
 
     for (int i = 0; i < n; i++)
     {
         printf("Digite um item: ");
-        scanf("%s", linha); // lê string do teclado
+        fgets(linha, 20, stdin); // Lendo do teclado. O valor 20 define o tamanho máximo da string lida
         // ATENÇÃO: No trabalho, no lugar de ler do teclado,
         // vc deve iterar sobre a lista encadeada, pegando cada item da lista
-        fprintf(arquivo, "%s\n", linha);  // escreve string no arquivo
-        // TODO (por fazer): não inserir '\n' na última linha
+        fprintf(arquivo, "%s", linha);  // escreve string no arquivo
         
     }
     

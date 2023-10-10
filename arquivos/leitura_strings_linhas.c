@@ -7,7 +7,7 @@
 */
 void print_arquivo(char* nome_arquivo) {
 
-    FILE *arquivo;
+    FILE* arquivo;
     arquivo = fopen(nome_arquivo, "r"); //(caminho, modo) -- abrindo no modo leitura
     if (arquivo == NULL)
     {
@@ -20,7 +20,7 @@ void print_arquivo(char* nome_arquivo) {
 
     while (true)
     {
-        int k = fscanf(arquivo, "%s", linha);  // lendo cada linha do arquivo
+        int k = fscanf(arquivo, "%[^\n]\n", linha);  // lendo cada linha do arquivo
         if (k != 1)  // se arquivo terminou, interrompe o loop
             break;
         printf("%s\n", linha);  // imprime linha
