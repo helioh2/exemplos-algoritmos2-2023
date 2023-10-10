@@ -8,7 +8,7 @@
 void escreve_arquivo(char* nome_arquivo) {
 
     FILE* arquivo;
-    arquivo = fopen(nome_arquivo, "w"); //(caminho, modo) -- abrindo no modo de escrita
+    arquivo = fopen(nome_arquivo, "a"); //(caminho, modo) -- abrindo no modo de escrita
 
     int n;
     printf("Digite a quantidade de itens que serão gravados no arquivo: ");

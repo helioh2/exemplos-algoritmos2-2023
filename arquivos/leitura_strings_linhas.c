@@ -8,6 +8,7 @@
 void print_arquivo(char* nome_arquivo) {
 
     FILE* arquivo;
+    // ABRIR O ARQUIVO:
     arquivo = fopen(nome_arquivo, "r"); //(caminho, modo) -- abrindo no modo leitura
     if (arquivo == NULL)
     {
@@ -16,8 +17,9 @@ void print_arquivo(char* nome_arquivo) {
     }
 
     // declara e aloca variável 'linha' para guardar uma string de no máximo 20 caracteres
-    char* linha = malloc(sizeof(char)*20);  
+    char linha[50];  
 
+    // loop que vai ler cada linha do arquivo e imprimir
     while (true)
     {
         int k = fscanf(arquivo, "%[^\n]\n", linha);  // lendo cada linha do arquivo
@@ -27,12 +29,13 @@ void print_arquivo(char* nome_arquivo) {
         // ATENÇÃO: No trabalho, no lugar de imprimir a linha, vc deverá adicionar
         // a linha a uma lista encadeada!!
     }
-    fclose(arquivo);
+
+    fclose(arquivo);  // fechar o arquivo no final
 }
 
 
 int main(void)
-{
-    print_arquivo("lista_compras.txt");
+{   
+    print_arquivo("../lista_compras.txt");
     return EXIT_SUCCESS;
 }

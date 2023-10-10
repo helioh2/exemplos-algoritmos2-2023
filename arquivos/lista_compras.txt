@@ -3,3 +3,4 @@ feijao
 batata
 macarrao
 carne de boi
+abacate

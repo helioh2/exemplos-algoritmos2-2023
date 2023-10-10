@@ -1,4 +1,8 @@
-batata
-carne de frango
-carne moida
+bolacha
+cafe
+pao
+refri
+bolo
+suco
 arroz
+torta
