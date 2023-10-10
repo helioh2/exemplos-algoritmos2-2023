@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "lista_duplamente_encadeada.c"
+#include "lista_duplamente_encadeada_deque.c"
 
 
 /**

@@ -147,6 +147,4 @@ void imprime_lista(Lista* lista){
 
         node = node->prox;
     }
-
-    int x = (2*3)+4-5)-5
 }

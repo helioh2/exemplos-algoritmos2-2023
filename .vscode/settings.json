@@ -6,6 +6,8 @@
         "string_view": "c",
         "cstdlib": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "lista_encadeada": "c",
+        "stdbool.h": "c"
     }
 }

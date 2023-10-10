@@ -5,12 +5,12 @@
 
 
 /**
- * O primeiro elemento da fila está na posição p e o último na posição u-1.
+ * O primeiro elemento da fila está na posição inicio e o último na posição fim-1.
 */
 struct fila {
     int* vetor;
-    int p;  // indice do primeiro elemento
-    int u;  // indice do último elemento + 1
+    int inicio;  // indice do primeiro elemento
+    int fim;  // indice do último elemento + 1
     int capacidade;
 };
 typedef struct fila Fila;
@@ -22,19 +22,19 @@ Fila* cria_fila_vazia(int capacidade_inicial) {
     nova_fila->vetor = malloc(sizeof(int)*capacidade_inicial);
     if (nova_fila->vetor == NULL) exit(EXIT_FAILURE);
 
-    nova_fila->p = 0;
-    nova_fila->u = 0;
+    nova_fila->inicio = 0;
+    nova_fila->fim = 0;
     nova_fila->capacidade = capacidade_inicial;
 
     return nova_fila;
 }
 
 bool fila_vazia(Fila* fila) {
-    return fila->p == fila->u;
+    return fila->inicio == fila->fim;
 }
 
 bool fila_cheia(Fila* fila) {
-    return (fila->u + 1) % fila->capacidade == fila->p;
+    return fila->fim == (fila->inicio - 1) % fila->capacidade;
 }
 
 void redimensionar_fila(Fila* fila) {
@@ -43,15 +43,15 @@ void redimensionar_fila(Fila* fila) {
     int* novo_vetor = malloc(fila->capacidade * sizeof(int));
     
     int j = 0;
-    int i = fila->p;
-    while (i != fila->u) {
+    int i = fila->inicio;
+    while (i != fila->fim) {
         novo_vetor[j] = fila->vetor[i];
         i = (i + 1) % capacidade_antiga;
         j++;
     }
 
-    fila->p = 0;
-    fila->u = capacidade_antiga - 1;
+    fila->inicio = 0;
+    fila->fim = capacidade_antiga - 1;
     fila->vetor = novo_vetor;
 }
 
@@ -61,18 +61,18 @@ bool adicionar(Fila* fila, int valor) {
         redimensionar_fila(fila);
     }
 
-    fila->vetor[fila->u] = valor;
-    fila->u = (fila->u + 1) % fila->capacidade;
+    fila->vetor[fila->fim] = valor;
+    fila->fim = (fila->fim + 1) % fila->capacidade;
     return true;
 }
 
-bool remover(Fila* fila) {
+int remover(Fila* fila) {
     if (fila_vazia(fila)) {
         printf("ERRO: Fila vazia");
         return false;
     }
-    int removido = fila->vetor[fila->p];
-    fila->p = (fila->p + 1) % fila->capacidade;
+    int removido = fila->vetor[fila->inicio];
+    fila->inicio = (fila->inicio + 1) % fila->capacidade;
     return removido;
 }
 
@@ -83,7 +83,7 @@ int inicio_fila(Fila* fila) {
         return -1;
     }
 
-    return fila->vetor[fila->p];
+    return fila->vetor[fila->inicio];
 
 }
 
@@ -93,7 +93,7 @@ int fim_fila(Fila* fila) {
         return -1;
     }
 
-    return fila->vetor[fila->u - 1];  // final da fila em u-1
+    return fila->vetor[fila->fim - 1];  // final da fila em fim-1
 }
 
 
