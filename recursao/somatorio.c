@@ -6,7 +6,14 @@
 
 // prototipo
 int somatorio(int* vetor, int n) {
-    return 0;
+    
+    if (n == 0) {   // n==0 significa que o vetor que eu tenho que considerar é vazio
+        return 0;
+    }
+
+    // else
+    int res = vetor[n-1] + somatorio(vetor, n-1);
+
 }
 
 

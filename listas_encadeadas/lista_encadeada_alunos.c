@@ -23,15 +23,11 @@ typedef struct {
 /**
  * Representa um nó
 */
-struct node {
+typedef struct Node {
     Aluno conteudo;  //é possivel definir outros tipos
-    struct node* prox;
-};
+    struct Node* prox;
+} Node;
 
-/**
- * Define o tipo Node para nó
-*/
-typedef struct node Node;
 
 struct lista {
     Node* cabeca;  // ponteiro para o primeiro nó da lista

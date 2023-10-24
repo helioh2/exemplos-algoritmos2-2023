@@ -8,6 +8,7 @@
         "stdio.h": "c",
         "stdlib.h": "c",
         "lista_encadeada": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "assert.h": "c"
     }
 }

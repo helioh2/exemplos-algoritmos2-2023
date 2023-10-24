@@ -31,12 +31,15 @@
 int minimo(int* vetor, int n) {
 
     if (n == 1) {  // CASO BASE (quando há um único elemento, este elemento sempre será o mínimo)
-        return vetor[n-1];
+        return vetor[0];
     }
-
-    if (vetor[n-1] < minimo(vetor, n-1)) {
+    // else
+    int recmin = minimo(vetor, n-1);  // pegando o menor do resto do vetor
+    if (vetor[n-1] < recmin) {
         return vetor[n-1];
-    } 
+    } else {
+        return recmin;
+    }
 
 }
 
@@ -70,9 +73,12 @@ int minimo2(int* vetor, int i, int n) {
         return vetor[i];
     }
 
-    if (vetor[i] < minimo2(vetor, i+1, n)) {
+    int recmin = minimo2(vetor, i+1, n);
+    if (vetor[i] < recmin) {
         return vetor[i];
-    } 
+    } else {
+        return recmin;
+    }
 
 }
 

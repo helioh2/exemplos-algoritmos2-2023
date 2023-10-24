@@ -1,9 +1,6 @@
 #include <stdio.h>
 
-void recursiva() {
-  int x = 0;
-  recursiva();
-}
+
 
 int* func1() {
   int vetor[5];
