@@ -219,6 +219,7 @@ void adicionar_no_meio(Lista* lista, Aluno aluno, int posicao) {
 
 /**
  * print_lista_recursiva: Node* -> void
+ * Percorre (traverse) a lista imprimindo cada elemento
  * Imprime a lista de forma recursiva.
 */
 void print_lista_recursiva(Node* node) {
@@ -241,6 +242,7 @@ void print_lista_recursiva(Node* node) {
 
 /**
  * print_lista: Lista* -> void
+ * Percorre (traverse) a lista imprimindo cada elemento
  * Imprime a lista de forma iterativa.
 */
 void print_lista(Lista* lista) {

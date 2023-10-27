@@ -22,7 +22,7 @@
 */
 Node* inverte_nodes(Node* node, Node** ultimo) {
 
-    if (node->prox == NULL) {
+    if (node->prox == NULL) {  // caso base
         *ultimo = node;  
         // Encontrou o último, então seta o parâmetro passado 
         // por referência 'ultimo'.
@@ -34,7 +34,8 @@ Node* inverte_nodes(Node* node, Node** ultimo) {
         // de chamadas
     }
 
-    Node* proximo = inverte_nodes(node->prox, ultimo);
+    //else
+    Node* proximo = inverte_nodes(node->prox, ultimo);  // chama recursivamente para o proximo
     proximo->prox = node;
     return node;
 }
@@ -51,7 +52,7 @@ void inverte_lista(Lista* lista) {
 int main() {
 
 
-    Node* node_lista1 = cons('a', cons('b', cons('c', cons('d', NULL))));
+    Node* node_lista1 = junta('a', junta('b', junta('c', junta('d', NULL))));
     Lista* lista1 = criar_lista_vazia();
     lista1->cabeca = node_lista1;
 

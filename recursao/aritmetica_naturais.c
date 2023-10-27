@@ -55,6 +55,9 @@ Natural* soma(Natural* n1, Natural* n2) {
     if (n1 == NULL) {  // caso base
         return n2;
     }
+    if (n2 == NULL) {  // caso base
+        return n2;
+    }
     //else
     return junta('|', soma(resto(n1), n2));
     // Explicação: retorna 1 + (n1 - 1) + n2
