@@ -1,0 +1,30 @@
+
+
+
+
+from random_list import random_list
+
+
+def insertion_sort(vetor):
+    n = len(vetor)
+
+    for i in range(1, n):  ## subvetor [0..i-1] permanece ordenado a cada iteração
+        j = i - 1
+        while j >= 0 and vetor[j+1] <= vetor[j]:         
+            vetor[j], vetor[j+1] = vetor[j+1], vetor[j]
+            j -= 1
+        
+
+
+## Testes
+l1 = [12, 2, 7, 25, 9, 1]
+insertion_sort(l1)
+assert l1 == [1,2,7,9,12,25]
+
+l2 = random_list(1000)
+print(l2, "\n\n")
+
+insertion_sort(l2)
+print(l2)
+
+
