@@ -5,18 +5,22 @@
 from random_list import random_list
 
 
-def selection_sort(vetor):
+
+def selection_sort(vetor: list):
     n = len(vetor)
 
-    for i in range(n):   # vetor [i..n-1] permanece ordenado a cada iteração
-        menor = i
-        for j in range(i+1, n):
-            if vetor[j] < vetor[menor]:
-                menor = j
+    for i in range(0, n-1):  # for (int i = 0; i < n-1; i++)
+         # vetor [0..i] permanece ordenado a cada iteração
+        ind_menor = i
         
-        vetor[i], vetor[menor] = vetor[menor], vetor[i]  # troca, swap
+        for j in range(i+1, n):  # for (int j = i+1; j < n; j++)
+            if vetor[j] < vetor[ind_menor]:
+                ind_menor = j
 
-
+        # troca
+        vetor[i], vetor[ind_menor] = vetor[ind_menor], vetor[i]
+        
+        
 ## Testes
 l1 = [12, 2, 7, 25, 9, 1]
 selection_sort(l1)

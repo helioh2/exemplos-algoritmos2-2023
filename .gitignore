@@ -10,3 +10,4 @@
 ### Above combination will ignore all files without extension ###
 
 *.o
+ordenacao/__pycache__/random_list.cpython-310.pyc
