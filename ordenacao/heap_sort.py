@@ -1,3 +1,8 @@
+"""
+Sobre Árvore Heap: https://www.geeksforgeeks.org/binary-heap/
+Sobre Heap Sort: 
+"""
+import time
 
 
 from random_list import random_list
@@ -7,8 +12,8 @@ from random_list import random_list
 def heapify(vetor, ind_raiz, N):
 
     ind_maior = ind_raiz    # inicializa maior como a raiz da arvore
-    ind_esq = 2 * ind_raiz + 1   # indice do filho da esquerda
-    ind_dir = 2 * ind_raiz + 2   # indice do filho da direita
+    ind_esq = 2*ind_raiz + 1   # indice do filho da esquerda
+    ind_dir = 2*ind_raiz + 2   # indice do filho da direita
 
     if ind_esq < N and vetor[ind_maior] < vetor[ind_esq]:
         ind_maior = ind_esq
@@ -34,7 +39,7 @@ def heap_sort(vetor):
 
     N = len(vetor)
  
-    # Construir heap máxima (todos os nós pai maiores que nós filhos)
+    # Construir heap máxima (todos os nós-pai maiores que nós filhos)
     for i in range(N//2 - 1, -1, -1):
         # A ideia aqui é heapificar a partir de cada nó não-folha, de baixo pra cima,
         # por isso começa-se pelo elemento em N // 2 - 1, que é o último
@@ -58,10 +63,20 @@ l1 = [12, 2, 7, 25, 1, 9]
 heap_sort(l1)
 assert l1 == [1,2,7,9,12,25]
 
-l2 = random_list(1000)
-print(l2, "\n\n")
+l2 = random_list(10000)
+heap_sort(l2)
+# print(l2, "\n\n")
+
+t_inicial = time.time() 
 
 heap_sort(l2)
-print(l2)
+
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
+
 
 

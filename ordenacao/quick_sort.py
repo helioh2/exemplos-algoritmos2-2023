@@ -3,13 +3,13 @@
 
 
 from random_list import random_list
-
+import time
 
 def partition(vetor, inicio, fim):
 
     pivo = vetor[fim]
 
-    i = inicio  # aponta para o atual maior elemento que o pivô
+    i = inicio  # aponta para o atual maior elemento
 
     for j in range(inicio, fim):
         if vetor[j] <= pivo:
@@ -35,7 +35,7 @@ def partition(vetor, inicio, fim):
 
 def quick_sort_rec(vetor, inicio, fim):
         
-        if inicio >= fim:
+        if inicio >= fim:  # caso base
             return 
 
         pivo = partition(vetor, inicio, fim)
@@ -57,10 +57,18 @@ l1 = [12, 2, 7, 25, 1, 9]
 quick_sort(l1)
 assert l1 == [1,2,7,9,12,25]
 
-l2 = random_list(1000)
-print(l2, "\n\n")
+l2 = random_list(10000)
+# quick_sort(l2)
+# print(l2, "\n\n")
+
+t_inicial = time.time() 
 
 quick_sort(l2)
-print(l2)
 
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
 

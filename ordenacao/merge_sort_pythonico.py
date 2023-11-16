@@ -55,7 +55,7 @@ l1 = [12, 2, 7, 25, 9, 1]
 l1 = merge_sort(l1)
 assert l1 == [1,2,7,9,12,25]
 
-l2 = random_list(10000)
+l2 = random_list(1000000)
 # print(l2, "\n\n")
 
 t_inicial = time.time() 

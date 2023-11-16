@@ -1,6 +1,8 @@
 
 
+import time
 
+from random_list import random_list
 
 def counting_sort(vetor, exp):
     """
@@ -61,3 +63,19 @@ def radix_sort(vetor):
 ## Testes radix sort:
 v1 = [170, 45, 75, 90, 802, 24, 2, 66]
 assert radix_sort(v1) == [2, 24, 45, 66, 75, 90, 170, 802]
+
+
+l2 = random_list(10000)
+# quick_sort(l2)
+# print(l2, "\n\n")
+
+t_inicial = time.time() 
+
+radix_sort(l2)
+
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
