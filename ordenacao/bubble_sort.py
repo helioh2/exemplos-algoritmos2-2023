@@ -3,7 +3,7 @@ import random
 
 
 from random_list import random_list
-
+import time
 
 
 def bubble_sort(vetor: list):
@@ -49,12 +49,18 @@ print(compras)
 
 
 
+l2 = random_list(10000)
+# print(l2, "\n\n")
 
-# v2 = list(range(1000))
-# random.shuffle(v2)
-# print(v2, "\n\n")
+t_inicial = time.time() 
 
-# bubble_sort(v2)
-# print(v2)
+bubble_sort(l2)
+
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
 
 

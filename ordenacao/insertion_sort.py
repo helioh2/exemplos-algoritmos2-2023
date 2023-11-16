@@ -4,6 +4,7 @@
 
 from random_list import random_list
 
+import time
 
 def insertion_sort(vetor):
     n = len(vetor)
@@ -21,10 +22,18 @@ l1 = [12, 2, 7, 25, 9, 1]
 insertion_sort(l1)
 assert l1 == [1,2,7,9,12,25]
 
-l2 = random_list(1000)
-print(l2, "\n\n")
+l2 = random_list(10)
+# print(l2, "\n\n")
+
+t_inicial = time.time() 
 
 insertion_sort(l2)
-print(l2)
+
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
 
 

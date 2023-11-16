@@ -3,7 +3,7 @@
 
 
 from random_list import random_list
-
+import time
 
 
 def selection_sort(vetor: list):
@@ -26,10 +26,19 @@ l1 = [12, 2, 7, 25, 9, 1]
 selection_sort(l1)
 assert l1 == [1,2,7,9,12,25]
 
-l2 = random_list(1000)
-print(l2, "\n\n")
+l2 = random_list(10000)
+# print(l2, "\n\n")
+
+t_inicial = time.time() 
 
 selection_sort(l2)
-print(l2)
+
+t_fim = time.time()
+
+t_total = t_fim - t_inicial
+
+# print(l2)
+print(t_total)
+
 
 
